@@ -10,6 +10,9 @@ bin/
 *.ipr
 *.iws
 
+# Claude Code
+.claude/
+
 # Eclipse
 .classpath
 .project
