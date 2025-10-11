@@ -1,0 +1,64 @@
+name: KaizenClear
+version: '${version}'
+main: kaizenrpg.kaizenClear.KaizenClear
+api-version: '1.21'
+folia-supported: true
+author: KaizenCore
+description: Advanced lag remover and entity management plugin
+website: https://github.com/KaizenCore/KaizenClear
+
+commands:
+  kaizenclear:
+    description: Main KaizenClear command
+    usage: /kaizenclear <subcommand>
+    aliases: [kc, kclear]
+    permission: kaizenclear.commands
+
+permissions:
+  kaizenclear.*:
+    description: All KaizenClear permissions
+    children:
+      kaizenclear.admin: true
+      kaizenclear.gui: true
+      kaizenclear.commands: true
+      kaizenclear.clear: true
+      kaizenclear.bypass: true
+      kaizenclear.notify: true
+
+  kaizenclear.admin:
+    description: Admin access to all features
+    default: op
+    children:
+      kaizenclear.gui: true
+      kaizenclear.commands: true
+      kaizenclear.clear: true
+      kaizenclear.reload: true
+      kaizenclear.notify: true
+
+  kaizenclear.gui:
+    description: Access to GUI dashboard
+    default: op
+
+  kaizenclear.commands:
+    description: Basic command access
+    default: op
+
+  kaizenclear.clear:
+    description: Manual cleanup command
+    default: op
+
+  kaizenclear.clear.items:
+    description: Clear items specifically
+    default: op
+
+  kaizenclear.bypass:
+    description: Items/entities immune to cleanup
+    default: false
+
+  kaizenclear.notify:
+    description: Receive cleanup notifications
+    default: op
+
+  kaizenclear.reload:
+    description: Reload configuration
+    default: op

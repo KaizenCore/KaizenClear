@@ -1,0 +1,110 @@
+# KaizenClear Configuration
+# Advanced Lag Remover & Entity Manager
+# Version: 1.0
+
+general:
+  enabled: true
+  language: en_US
+  debug: false
+
+database:
+  # Database type: mysql, mongodb, or none
+  type: none
+  host: localhost
+  port: 3306
+  database: kaizenclear
+  username: root
+  password: password
+  pool-size: 10
+
+tps:
+  monitoring: true
+  update-interval: 20 # ticks (1 second)
+  warning-threshold: 18.0
+  critical-threshold: 15.0
+  auto-cleanup-enabled: true
+
+items:
+  enabled: true
+  default-lifetime: 300 # seconds (5 minutes)
+  warning-before-clear: 30 # seconds
+  broadcast-warnings: true
+
+  # Items that will never be removed
+  whitelist:
+    - DIAMOND
+    - NETHERITE_INGOT
+    - ELYTRA
+    - TOTEM_OF_UNDYING
+    - NETHER_STAR
+
+  # Items to remove more aggressively
+  blacklist:
+    - COBBLESTONE
+    - DIRT
+    - STONE
+    - NETHERRACK
+
+  # Per-world settings
+  world-settings:
+    world:
+      enabled: true
+      lifetime: 300
+    world_nether:
+      enabled: true
+      lifetime: 180
+    world_the_end:
+      enabled: true
+      lifetime: 240
+
+entities:
+  enabled: true
+  types:
+    monsters:
+      enabled: true
+      max-per-chunk: 50
+      cleanup-threshold: 70
+    animals:
+      enabled: true
+      max-per-chunk: 30
+      cleanup-threshold: 40
+    items:
+      enabled: true
+      max-per-chunk: 100
+      cleanup-threshold: 150
+      cluster-size: 20 # trigger if 20+ items in radius
+      cluster-radius: 5 # blocks
+
+cleanup:
+  # Scheduled cleanups
+  schedules:
+    - interval: 600 # every 10 minutes (in seconds)
+      worlds:
+        - world
+        - world_nether
+      broadcast: true
+      types:
+        - items
+
+  # Conditional triggers
+  conditions:
+    - trigger: tps_below
+      threshold: 17.0
+      action: cleanup_items
+      cooldown: 120 # seconds
+
+    - trigger: entity_count
+      threshold: 5000
+      action: cleanup_clusters
+      cooldown: 300
+
+gui:
+  enabled: true
+  auto-refresh: true
+  refresh-interval: 20 # ticks
+
+# Permission nodes:
+# kaizenclear.admin - Full access
+# kaizenclear.gui - Access to GUI
+# kaizenclear.bypass - Immune to cleanup
+# kaizenclear.notify - Receive notifications
