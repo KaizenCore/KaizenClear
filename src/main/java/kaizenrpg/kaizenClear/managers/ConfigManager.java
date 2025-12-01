@@ -7,6 +7,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.List;
 
 @Getter
@@ -14,6 +17,7 @@ public class ConfigManager {
 
     private final KaizenClear plugin;
     private FileConfiguration config;
+    private File configFile;
 
     // General settings
     private boolean enabled;
@@ -61,15 +65,28 @@ public class ConfigManager {
     }
 
     public void loadConfig() {
-        // Create config file if it doesn't exist
-        File configFile = new File(plugin.getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            plugin.saveDefaultConfig();
+        // Use Kaizen data folder: plugins/kaizen/kaizenclear/
+        File dataFolder = plugin.getKaizenDataFolder();
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
         }
 
-        // Reload config
-        plugin.reloadConfig();
-        config = plugin.getConfig();
+        configFile = new File(dataFolder, "config.yml");
+
+        // Create config file if it doesn't exist
+        if (!configFile.exists()) {
+            saveDefaultConfig();
+        }
+
+        // Load config from custom location
+        config = YamlConfiguration.loadConfiguration(configFile);
+
+        // Set defaults from resource
+        InputStream defaultStream = plugin.getResource("config.yml");
+        if (defaultStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+            config.setDefaults(defaultConfig);
+        }
 
         // Load general settings
         enabled = config.getBoolean("general.enabled", true);
@@ -219,9 +236,22 @@ public class ConfigManager {
 
     public void saveConfig() {
         try {
-            config.save(new File(plugin.getDataFolder(), "config.yml"));
+            config.save(configFile);
         } catch (IOException e) {
             plugin.getLogger().severe("Failed to save config: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Save the default config from resources to the Kaizen data folder
+     */
+    private void saveDefaultConfig() {
+        try (InputStream in = plugin.getResource("config.yml")) {
+            if (in != null) {
+                Files.copy(in, configFile.toPath());
+            }
+        } catch (IOException e) {
+            plugin.getLogger().severe("Failed to save default config: " + e.getMessage());
         }
     }
 

@@ -9,6 +9,9 @@ import kaizenrpg.kaizenClear.managers.ConfigManager;
 import kaizenrpg.kaizenClear.managers.TPSMonitor;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 @Getter
 public final class KaizenClear extends JavaPlugin {
@@ -21,11 +24,32 @@ public final class KaizenClear extends JavaPlugin {
     private CleanupManager cleanupManager;
     private GUIManager guiManager;
 
+    // Custom data folder for Kaizen plugin suite
+    private File customDataFolder;
+
     private static KaizenClear instance;
+
+    /**
+     * Get the custom data folder for Kaizen plugin suite.
+     * All Kaizen plugins store data in plugins/kaizen/{plugin-name}/
+     * @return the custom data folder
+     */
+    public @NotNull File getKaizenDataFolder() {
+        if (customDataFolder == null) {
+            // Store data in plugins/kaizen/kaizenclear/
+            customDataFolder = new File(getDataFolder().getParentFile(), "kaizen" + File.separator + "kaizenclear");
+        }
+        return customDataFolder;
+    }
 
     @Override
     public void onEnable() {
         instance = this;
+
+        // Ensure Kaizen data folder exists
+        if (!getKaizenDataFolder().exists()) {
+            getKaizenDataFolder().mkdirs();
+        }
 
         // Print startup banner
         getLogger().info("╔══════════════════════════════════════╗");
@@ -35,6 +59,7 @@ public final class KaizenClear extends JavaPlugin {
 
         // Initialize configuration
         getLogger().info("Loading configuration...");
+        getLogger().info("Data folder: " + getKaizenDataFolder().getPath());
         configManager = new ConfigManager(this);
 
         // Check if plugin is enabled
