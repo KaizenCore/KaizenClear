@@ -86,15 +86,17 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 shadowJar {
+    // Set the jar name to always be kaizenclear.jar
+    archiveBaseName.set('kaizenclear')
+    archiveVersion.set('')
+    archiveClassifier.set('')
+
     // Relocate dependencies to prevent conflicts with other plugins
     relocate 'com.zaxxer.hikari', 'kaizenrpg.kaizenClear.libs.hikari'
     relocate 'com.mongodb', 'kaizenrpg.kaizenClear.libs.mongodb'
     relocate 'org.bson', 'kaizenrpg.kaizenClear.libs.bson'
     relocate 'com.mysql', 'kaizenrpg.kaizenClear.libs.mysql'
     relocate 'org.bstats', 'kaizenrpg.kaizenClear.libs.bstats'
-
-    // Set classifier to avoid conflicts with regular jar
-    archiveClassifier.set('')
 
     // Exclude unnecessary files
     exclude 'META-INF/*.SF'
