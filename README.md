@@ -10,7 +10,7 @@ Advanced Minecraft plugin for Paper/Spigot 1.21+ that intelligently manages enti
 ✅ **Interactive GUI Dashboard** - Manage everything from an in-game menu
 ✅ **Multi-World Support** - Different settings per world
 ✅ **Scheduled Cleanup** - Automated cleanup with player warnings
-✅ **Permission System** - Granular control over who can use features
+✅ **Permission System** - Granular control over who7 can use features
 ✅ **Statistics Tracking** - Monitor cleanup history and performance
 
 
@@ -105,7 +105,7 @@ src/main/java/kaizenrpg/kaizenClear/
 KaizenClear (1.0)
 ```
 
-**Version**: 1.21.8
+**Version**: 1.21+
 **API Version**: 1.21 (Paper 1.21.8+)
 **Author**: KaizenCore
 **Folia Support**: Yes
