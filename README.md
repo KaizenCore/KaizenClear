@@ -105,7 +105,7 @@ entities:
       cluster-radius: 5
 ```
 
-See `claude.md` for full documentation.
+
 
 ## GUI Dashboard
 
@@ -170,7 +170,6 @@ The plugin successfully loads with:
 ## Links
 
 - **Repository**: https://github.com/KaizenCore/KaizenClear
-- **Documentation**: See `claude.md` for comprehensive docs
 - **License**: TBD
 
 ---
