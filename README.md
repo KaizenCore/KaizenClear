@@ -13,40 +13,6 @@ Advanced Minecraft plugin for Paper/Spigot 1.21+ that intelligently manages enti
 ✅ **Permission System** - Granular control over who can use features
 ✅ **Statistics Tracking** - Monitor cleanup history and performance
 
-## Quick Start
-
-### Building the Plugin
-
-**Command Line:**
-```bash
-./gradlew build
-```
-
-**IntelliJ IDEA:**
-- Click the **Run** dropdown in the toolbar
-- Select **"Quick Build"** or **"Build KaizenClear"**
-- Press the green play button
-
-The plugin JAR will be in `build/libs/untitled-1.21.8.jar`
-
-### Running Test Server
-
-**Command Line:**
-```bash
-./gradlew runServer
-```
-
-**IntelliJ IDEA:**
-- Click the **Run** dropdown in the toolbar
-- Select **"Run Paper Server"** or **"Build & Run Server"**
-- Press the green play button
-
-This will:
-- Download Paper 1.21
-- Install KaizenClear automatically
-- Start a test server with the plugin loaded
-
-### Available Run Configurations
 
 | Configuration | Description |
 |---------------|-------------|
@@ -136,43 +102,8 @@ src/main/java/kaizenrpg/kaizenClear/
     └── GUIManager.java           # GUI system
 ```
 
-### Building
-
-```bash
-# Build plugin
-./gradlew build
-
-# Clean build
-./gradlew clean build
-
-# Run test server
-./gradlew runServer
+KaizenClear (1.0)
 ```
-
-## Verification
-
-The plugin successfully loads with:
-
-```
-[PluginInitializerManager] Initialized 1 plugin
-[PluginInitializerManager] Bukkit plugins (1):
- - KaizenClear (1.0)
-```
-
-## Future Enhancements
-
-- MySQL/MongoDB multi-server support
-- Web dashboard
-- Discord webhooks
-- PlaceholderAPI integration
-- Machine learning for optimal cleanup timing
-
-## Links
-
-- **Repository**: https://github.com/KaizenCore/KaizenClear
-- **License**: TBD
-
----
 
 **Version**: 1.21.8
 **API Version**: 1.21 (Paper 1.21.8+)
