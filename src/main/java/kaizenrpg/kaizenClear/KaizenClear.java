@@ -11,7 +11,7 @@ import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public final class KaizenClear extends JavaPlugin {
+public class KaizenClear extends JavaPlugin {
 
     // Managers
     private ConfigManager configManager;

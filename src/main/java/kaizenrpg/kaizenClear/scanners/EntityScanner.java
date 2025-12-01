@@ -24,20 +24,58 @@ public class EntityScanner {
     }
 
     /**
-     * Scan and collect all items in a world that should be removed
+     * Scan and collect all items in a world that should be removed (respects age check)
      */
     public List<Item> scanItems(World world) {
+        return scanItems(world, true);
+    }
+
+    /**
+     * Scan and collect all items in a world
+     * @param checkAge if true, only returns items older than configured lifetime
+     */
+    public List<Item> scanItems(World world, boolean checkAge) {
         List<Item> itemsToRemove = new ArrayList<>();
 
         for (Entity entity : world.getEntities()) {
             if (entity instanceof Item item) {
-                if (shouldRemoveItem(item)) {
-                    itemsToRemove.add(item);
+                if (checkAge) {
+                    if (shouldRemoveItem(item)) {
+                        itemsToRemove.add(item);
+                    }
+                } else {
+                    // Force mode - only check whitelist, not age
+                    if (shouldForceRemoveItem(item)) {
+                        itemsToRemove.add(item);
+                    }
                 }
             }
         }
 
         return itemsToRemove;
+    }
+
+    /**
+     * Check if item should be force-removed (ignores age, respects whitelist only)
+     */
+    private boolean shouldForceRemoveItem(Item item) {
+        ItemStack stack = item.getItemStack();
+        Material type = stack.getType();
+
+        // Check whitelist - never remove whitelisted items
+        if (config.getItemWhitelist().contains(type.name())) {
+            return false;
+        }
+
+        // Check if player has bypass permission
+        if (item.getOwner() != null) {
+            Player owner = plugin.getServer().getPlayer(item.getOwner());
+            if (owner != null && owner.hasPermission("kaizenclear.bypass")) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
