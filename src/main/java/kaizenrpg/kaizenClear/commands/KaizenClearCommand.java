@@ -124,11 +124,13 @@ public class KaizenClearCommand implements CommandExecutor, TabCompleter {
         int removed = 0;
         switch (type) {
             case "items" -> {
+                // Manual clear = force clear (ignores age check)
                 if (targetWorld != null) {
-                    removed = cleanupManager.cleanupItems(targetWorld);
+                    removed = cleanupManager.forceCleanupItems(targetWorld);
                 } else {
-                    cleanupManager.cleanupAllWorlds();
-                    removed = cleanupManager.getLastCleanupCount();
+                    for (World world : Bukkit.getWorlds()) {
+                        removed += cleanupManager.forceCleanupItems(world);
+                    }
                 }
             }
             case "clusters" -> {

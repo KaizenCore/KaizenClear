@@ -186,10 +186,18 @@ public class CleanupManager {
     }
 
     /**
-     * Clean items in a specific world
+     * Clean items in a specific world (respects age check)
      */
     public int cleanupItems(World world) {
-        List<Item> items = scanner.scanItems(world);
+        return cleanupItems(world, true);
+    }
+
+    /**
+     * Clean items in a specific world
+     * @param checkAge if true, only removes items older than configured lifetime
+     */
+    public int cleanupItems(World world, boolean checkAge) {
+        List<Item> items = scanner.scanItems(world, checkAge);
         int removed = 0;
 
         for (Item item : items) {
@@ -204,6 +212,13 @@ public class CleanupManager {
         }
 
         return removed;
+    }
+
+    /**
+     * Force clean ALL items in a world (ignores age, respects whitelist)
+     */
+    public int forceCleanupItems(World world) {
+        return cleanupItems(world, false);
     }
 
     /**
